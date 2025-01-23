@@ -13,6 +13,7 @@ async function getSheetData()
                                                                           range :         "Data!A1:D5"
                                                                       });
         console.log(response.data.values);
+        return response.data.values;
     }
     catch (error)
     {

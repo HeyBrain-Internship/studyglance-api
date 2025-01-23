@@ -1,2 +1,4 @@
 /.env
 /src/google/studyglance-service.json
+/node_modules/
+/dist/

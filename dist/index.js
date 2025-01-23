@@ -1,13 +1,38 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import Fastify        from "fastify";
+const fastify_1 = __importDefault(require("fastify"));
+const cors_1 = __importDefault(require("@fastify/cors"));
 const reading_1 = __importDefault(require("./google/sheets/reading"));
-// const SCOPES               = "https://www.googleapis.com/auth/spreadsheets.readonly";
-// const CLIENT_EMAIL         = "studyglance@studyglance.iam.gserviceaccount.com";
-// const CLIENT_ID            = "137121920497-fo0e7slilsv7dl313gvgf21apejc8dc2.apps.googleusercontent.com";
-// const PRIVATE_KEY          = serviceAccount.private_key;
-// const fastify = Fastify({ logger : true });
-(0, reading_1.default)().then(response => console.log(response));
+const fastify = (0, fastify_1.default)({ logger: true });
+fastify.register(cors_1.default, {
+    origin: "*"
+});
+fastify.get('/', (request, response) => {
+    const body = request.body;
+    console.log(body);
+    response.send({ status: "OK", receivedData: body });
+});
+const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield fastify.listen({ port: 8080 });
+        console.log("Listening on port 8080");
+    }
+    catch (error) {
+        console.error(error);
+        process.exit(1);
+    }
+});
+startServer().then(response => console.log(response));
+fastify.register(reading_1.default, { prefix: "/get" });
