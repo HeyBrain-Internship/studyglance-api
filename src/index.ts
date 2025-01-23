@@ -1,6 +1,7 @@
 import Fastify      from "fastify";
 import cors         from "@fastify/cors";
 import getSheetData from "./google/sheets/reading";
+import * as dotenv from "dotenv"; dotenv.config();
 
 const fastify = Fastify({ logger : true });
 
@@ -15,5 +16,5 @@ fastify.get('/get', async (request, response) =>
     response.send({ status : "OK", receivedData : data });
 })
 
-void fastify.listen({ port : 8080 });
-console.log("Listening on port 8080");
+void fastify.listen({ port : Number(process.env.PORT), host: "0.0.0.0" });
+console.log("Listening");
