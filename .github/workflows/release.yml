@@ -28,6 +28,7 @@ jobs:
           tags: ghcr.io/heybrain-internship/studyglance-api:latest
   deploy:
     name: Call redeployment webhook
+    needs: [docker]
     runs-on: ubuntu-latest
     steps:
       - name: Execute webhook
