@@ -8,16 +8,16 @@ async function getSheetData()
     try
     {
         const sheetClient = await authenticate();
-        const response    = await sheetClient.spreadsheets.values.get({
+        const response    = await sheetClient?.spreadsheets.values.get({
                                                                           spreadsheetId : SPREADSHEET_ID,
                                                                           range :         "Data!A1:D5"
                                                                       });
-        console.log(response.data.values);
-        return response.data.values;
+        console.log("Google Sheet response:   " + response?.data.values);
+        return response?.data.values;
     }
     catch (error)
     {
-        console.error(error);
+        console.error("Google Sheet error:   " + error);
     }
 }
 
