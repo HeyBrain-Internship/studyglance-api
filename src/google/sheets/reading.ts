@@ -8,6 +8,7 @@ async function getSheetData()
     try
     {
         const sheetClient = await authenticate();
+        sheetClient ? console.log("Authenticate: Success") : console.log("Authenticate: Failed");
         const response    = await sheetClient?.spreadsheets.values.get({
                                                                           spreadsheetId : SPREADSHEET_ID,
                                                                           range :         "Data!A1:D5"
