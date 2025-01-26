@@ -12,11 +12,11 @@ fastify.register(cors,
                      origin : "*"
                  })
 
-fastify.get('/get', async (request, response) =>
+fastify.get<{ Params : { grade : string } }>('/get/:grade', async (request, response) =>
 {
-    console.log("Server response:   " + response);
-    const data = await getSheetData();
-    console.log("Server data:   " + data);
+    const { grade } = request.params;
+    console.log(grade);
+    const data      = await getSheetData(grade);
     response.send({ status : "OK", receivedData : data });
 })
 

@@ -19,17 +19,7 @@ async function authenticate()
         const authenticatedClient = await authentication.getClient();
 
         // @ts-ignore
-        const response = google.sheets({ version : 'v4', auth : authenticatedClient });
-
-        if (response)
-        {
-            console.log("Google Sheets request response:   " + response);
-        }
-        else
-        {
-            console.log("Google Sheets request error:   " + response);
-        }
-        return response;
+        return google.sheets({ version : 'v4', auth : authenticatedClient });
     }
     catch (error)
     {
