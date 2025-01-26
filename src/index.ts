@@ -12,7 +12,7 @@ fastify.register(cors,
                      origin : "*"
                  })
 
-fastify.get<{ Params : { grade : string } }>('/get/:grade', async (request, response) =>
+fastify.get<{ Params : { grade : string } }>('/get-:grade', async (request, response) =>
 {
     const { grade } = request.params;
     console.log(grade);
