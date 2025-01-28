@@ -2,7 +2,6 @@ import { google } from "googleapis";
 
 async function authenticate()
 {
-
     try
     {
         const authentication = new google.auth.GoogleAuth(
@@ -15,9 +14,7 @@ async function authenticate()
                 scopes : ["https://www.googleapis.com/auth/spreadsheets.readonly"]
             });
 
-
         const authenticatedClient = await authentication.getClient();
-
         // @ts-ignore
         return google.sheets({ version : 'v4', auth : authenticatedClient });
     }
