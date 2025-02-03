@@ -1,11 +1,9 @@
 import * as dotenv  from "dotenv";
-import authenticate from "../authentication";
+import getSheetData from "./basic/reading";
 
 dotenv.config();
 
-const SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID;
-
-async function getSheetData(grade : string)
+async function databaseImport(grade : string)
 {
     let selectedGrade : string;
 
@@ -21,29 +19,23 @@ async function getSheetData(grade : string)
         case "grade-6": selectedGrade = "6"; break;
         case "grade-7": selectedGrade = "7"; break;
         case "grade-8": selectedGrade = "8"; break;
+        default: selectedGrade = ""; break;
     }
     //@formatter:on
 
     try
     {
-        const sheetClient = await authenticate();
+        const data = await getSheetData("Data!A2:S");
 
-        const response = await sheetClient?.spreadsheets.values.get({
-                                                                        spreadsheetId : SPREADSHEET_ID,
-                                                                        range :         "Data!A2:S"
-                                                                    });
-
-        // @ts-ignore
-        const data = response.data.values;
-
-        data!.forEach((row) =>
+        data?.forEach((row) =>
         {
             row.splice(10, 3);
             row.splice(7, 2);
             row.splice(3, 3);
         })
 
-        return data!.filter((columns) => columns[1] === selectedGrade);
+        const filteredData = data?.filter((columns) => columns[1] === selectedGrade);
+        return { data : data, filteredData : filteredData };
     }
     catch (error)
     {
@@ -51,4 +43,4 @@ async function getSheetData(grade : string)
     }
 }
 
-export default getSheetData;
+export default databaseImport;
